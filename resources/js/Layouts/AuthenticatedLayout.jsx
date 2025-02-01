@@ -18,6 +18,9 @@ import {
     FormInputIcon,
     ListIcon,
     MessageCircle,
+    CurlyBracesIcon,
+    Building2Icon,
+    Book,
 } from "lucide-react";
 
 export default function AuthenticatedLayout({ header, children }) {
@@ -107,6 +110,24 @@ export default function AuthenticatedLayout({ header, children }) {
                         activeClassName="bg-green-800"
                     />
                     <NavLink
+                        icon={<Building2Icon className="h-5 w-5" />}
+                        text="Courses"
+                        href={route("courses.index")}
+                        active={route().current("courses.*")}
+                        showingSidebar={showingSidebar}
+                        className="text-white hover:bg-green-800"
+                        activeClassName="bg-green-800"
+                    />
+                    <NavLink
+                        icon={<Book className="h-5 w-5" />}
+                        text="Subjects"
+                        href={route("subjects.index")}
+                        active={route().current("subjects.*")}
+                        showingSidebar={showingSidebar}
+                        className="text-white hover:bg-green-800"
+                        activeClassName="bg-green-800"
+                    />
+                    <NavLink
                         icon={<Users className="h-5 w-5" />}
                         text="Students"
                         showingSidebar={showingSidebar}
@@ -121,7 +142,18 @@ export default function AuthenticatedLayout({ header, children }) {
                         activeClassName="bg-green-800"
                     />
                     <NavLink
+                        icon={<CurlyBracesIcon className="h-5 w-5" />}
+                        href={route("roles.index")}
+                        active={route().current("roles.*")}
+                        text="Roles"
+                        showingSidebar={showingSidebar}
+                        className="text-white hover:bg-green-800"
+                        activeClassName="bg-green-800"
+                    />
+                    <NavLink
                         icon={<UserCircle2 className="h-5 w-5" />}
+                        href={route("users.index")}
+                        active={route().current("users.*")}
                         text="Users"
                         showingSidebar={showingSidebar}
                         className="text-white hover:bg-green-800"

@@ -1,51 +1,55 @@
-import { Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { Link } from "@inertiajs/react";
+import { useState } from "react";
 
 export default function NavLink({
     active = false,
-    text = 'Link',
+    text = "Link",
     showingSidebar = true,
-    className = '',
+    className = "",
     children,
     icon,
-    subItems = [], // Add subItems prop for submenu
+    subItems = [],
     ...props
 }) {
     const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
-    const toggleSubMenu = () => {
-        setIsSubMenuOpen(!isSubMenuOpen);
+    const toggleSubMenu = (e) => {
+        if (subItems.length > 0) {
+            e.preventDefault(); // Prevent navigation if there's a submenu
+            setIsSubMenuOpen(!isSubMenuOpen);
+        }
     };
 
     return (
         <div>
-            <Link
+            <Link title={text}
                 {...props}
-                className={
-                    'block w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ' +
-                    (active
-                        ? 'border-l-4 border-indigo-400 bg-green-800 text-gray-900'
-                        : 'border-l-4 border-transparent text-gray-500 hover:border-indigo-400 hover:bg-white-50 hover:text-white-700') +
-                    ' ' +
-                    className
-                }
-                onClick={subItems.length > 0 ? toggleSubMenu : undefined} // Toggle submenu on click
+                className={`block w-full px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${
+                    active
+                        ? "border-l-4 border-indigo-400 bg-green-800 text-white"
+                        : "border-l-4 border-transparent text-white-700 hover:border-green-400 hover:bg-green-800 hover:text-white-900"
+                } ${className}`}
+                onClick={toggleSubMenu}
             >
-                <div className="flex items-center space-x-2">
+                <div className="flex space-x-2 ">
                     {icon && <span>{icon}</span>}
 
-                    {/* Text with transition effect */}
                     <span
-                        className={`transform ${showingSidebar ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'} transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0`}
+                        className={`transform${
+                            showingSidebar
+                                ? "opacity-100 translate-x-0"
+                                : "opacity-0 translate-x-4"
+                        } transition-all duration-300`}
                     >
-                        {showingSidebar ? text : ''}
+                        {showingSidebar ? text : ""}
                     </span>
 
-                    {/* Add a chevron icon if submenu exists */}
                     {subItems.length > 0 && (
-                        <span className="ml-auto">
+                        <span className="ml-auto flex items-center">
                             <svg
-                                className={`w-4 h-4 transform transition-transform ${isSubMenuOpen ? 'rotate-180' : ''}`}
+                                className={`w-4 h-4 transform transition-transform ${
+                                    isSubMenuOpen ? "rotate-180" : ""
+                                }`}
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -63,14 +67,14 @@ export default function NavLink({
                 </div>
             </Link>
 
-            {/* Render submenu items if they exist */}
             {subItems.length > 0 && isSubMenuOpen && (
-                <div className="pl-4">
+                <div className="pl-1 border-l border-green-300">
                     {subItems.map((item, index) => (
                         <NavLink
                             key={index}
                             {...item}
                             showingSidebar={showingSidebar}
+                            className="text-white-600 hover:text-white-900"
                         />
                     ))}
                 </div>
