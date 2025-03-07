@@ -30,7 +30,8 @@
    ```bash
    php artisan key:generate
    ```
- ```bash
+5. Migrate and seed 
+   ```bash
    php artisan migrate --seed
    ```
 
