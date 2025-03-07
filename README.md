@@ -12,7 +12,7 @@
 1. Clone the repository
    ```bash
    git clone https://github.com/djgraphics28/school-portal.git school-portal
-   cd sanven
+   cd school-portal
    ```
 
 2. Install PHP dependencies
