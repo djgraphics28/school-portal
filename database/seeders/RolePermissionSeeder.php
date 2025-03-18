@@ -15,14 +15,29 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         // Create Permissions
-        $permissions = ['manage users', 'manage roles', 'manage students', 'manage admissions'];
+        $permissions = [
+            'users.view',
+            'users.create',
+            'users.edit',
+            'users.delete',
+            'users.disable-enable',
+
+            'roles.view',
+            'roles.create',
+            'roles.edit',
+            'roles.delete',
+        ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+            Permission::updateOrCreate(['name' => $permission], ['name' => $permission]);
         }
 
         // Create Roles and Assign Permissions
-        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $admin = Role::updateOrCreate(['name' => 'superadmin'], ['name' => 'superadmin']);
         $admin->givePermissionTo($permissions);
+
+        // Assign admin role to user with ID 1
+        $user = \App\Models\User::find(1);
+        $user->assignRole('superadmin');
     }
 }

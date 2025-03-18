@@ -12,7 +12,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
-    #[Validate('required|string|email')]
+    #[Validate('required|string')] // Changed validation rule to allow both email and username
     public string $email = '';
 
     #[Validate('required|string')]
@@ -29,7 +29,16 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        // Check if input is email or username and validate accordingly
+        $credentials = [];
+        if (filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            $credentials['email'] = $this->email;
+        } else {
+            $credentials['username'] = $this->email;
+        }
+        $credentials['password'] = $this->password;
+
+        if (!Auth::attempt($credentials, $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -42,13 +51,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
-
     /**
      * Ensure the authentication request is not rate limited.
      */
     protected function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -69,7 +77,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 }; ?>
 
@@ -81,26 +89,13 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
     <form wire:submit="login" class="flex flex-col gap-6">
         <!-- Email Address -->
-        <flux:input
-            wire:model="email"
-            :label="__('Email address')"
-            type="email"
-            required
-            autofocus
-            autocomplete="email"
-            placeholder="email@example.com"
-        />
+        <flux:input wire:model="email" :label="__('Username or Email address')" type="text" required autofocus
+            placeholder="username / email" />
 
         <!-- Password -->
         <div class="relative">
-            <flux:input
-                wire:model="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="current-password"
-                :placeholder="__('Password')"
-            />
+            <flux:input wire:model="password" :label="__('Password')" type="password" required
+                autocomplete="current-password" :placeholder="__('Password')" />
 
             @if (Route::has('password.request'))
                 <flux:link class="absolute right-0 top-0 text-sm" :href="route('password.request')" wire:navigate>

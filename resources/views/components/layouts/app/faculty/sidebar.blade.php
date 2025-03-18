@@ -33,12 +33,6 @@
                 </flux:navlist.group>
                 @endcan
 
-                <flux:navlist.group :heading="__('Academic Management')" class="grid">
-                    <flux:navlist.item icon="calendar" :href="route('schoolyearandsemester')" :current="request()->routeIs('schoolyearandsemester')" wire:navigate>
-                        {{ __('Manage S.Y. & Sem') }}
-                    </flux:navlist.item>
-                </flux:navlist.group>
-
                 {{-- <flux:navlist.group :heading="__('Academics')" class="grid">
                     <flux:navlist.item icon="academic-cap" wire:navigate>
                         {{ __('Online Grading System') }}
