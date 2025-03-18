@@ -335,7 +335,7 @@ new class extends Component {
     </div>
 
     @if ($showModal)
-        <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                     <div class="absolute inset-0 bg-gray-500 dark:bg-gray-800 opacity-75"></div>
@@ -445,7 +445,7 @@ new class extends Component {
     @endif
 
     @if ($confirmingDelete)
-        <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                 <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                     <div class="absolute inset-0 bg-gray-500 dark:bg-gray-800 opacity-75"></div>

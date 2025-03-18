@@ -208,13 +208,13 @@ new class extends Component {
         </div>
 
         @if ($showModal)
-            <div class="fixed inset-0 z-10 overflow-y-auto">
-                <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 z-50 overflow-y-auto">
+                <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                         <div class="absolute inset-0 bg-gray-500 dark:bg-gray-800 opacity-75"></div>
                     </div>
                     <div
-                        class="inline-block transform overflow-hidden rounded-lg bg-white dark:bg-gray-900 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-7xl sm:align-middle">
+                        class="inline-block transform overflow-hidden rounded-lg bg-white dark:bg-gray-900 text-left align-middle shadow-xl transition-all w-full sm:my-8 sm:max-w-7xl sm:align-middle">
                         <form wire:submit="save">
                             <div class="bg-white dark:bg-gray-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="mb-4">
@@ -237,7 +237,8 @@ new class extends Component {
                                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">Give all
                                             permissions</span>
                                     </div>
-                                    <div class="grid grid-cols-4 gap-6">
+                                    <div
+                                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                                         @php
                                             $groupedPermissions = $permissions->groupBy(function ($permission) {
                                                 return explode('.', $permission->name)[0];
@@ -262,13 +263,14 @@ new class extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                            <div
+                                class="bg-gray-50 dark:bg-gray-800 px-4 py-3 flex flex-col-reverse sm:flex-row-reverse sm:px-6 gap-2">
                                 <button type="submit"
-                                    class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400 sm:ml-3 sm:w-auto sm:text-sm">
+                                    class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400 sm:ml-3 sm:text-sm">
                                     {{ $isEditing ? 'Update' : 'Create' }}
                                 </button>
                                 <button type="button" wire:click="$set('showModal', false)"
-                                    class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                    class="w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 sm:text-sm">
                                     Cancel
                                 </button>
                             </div>
@@ -279,7 +281,7 @@ new class extends Component {
         @endif
 
         @if ($confirmingDelete)
-            <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="fixed inset-0 z-50 overflow-y-auto">
                 <div class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                         <div class="absolute inset-0 bg-gray-500 dark:bg-gray-800 opacity-75"></div>

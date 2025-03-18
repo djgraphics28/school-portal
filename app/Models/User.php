@@ -27,6 +27,8 @@ class User extends Authenticatable implements HasMedia
         'username',
         'password',
         'user_type',
+        'google2fa_secret',
+        'google2fa_enabled',
     ];
 
     /**
