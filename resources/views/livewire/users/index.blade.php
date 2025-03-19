@@ -5,6 +5,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use Livewire\Attributes\Title;
 use Spatie\Permission\Models\Role;
+use Spatie\Activitylog\Models\Activity;
 
 new class extends Component {
     use WithPagination;
@@ -129,7 +130,15 @@ new class extends Component {
             ->when($this->selectedUserType, function ($query) {
                 return $query->where('user_type', $this->selectedUserType);
             })
-            ->paginate(10);
+            ->paginate(10)
+            ->through(function ($user) {
+                // Fetch the latest login activity for each user
+                $lastLogin = Activity::where('log_name', 'user-login')->where('causer_id', $user->id)->latest()->first();
+
+                $user->last_logged_in = $lastLogin ? $lastLogin->created_at : null;
+
+                return $user;
+            });
     }
 };
 
@@ -239,6 +248,10 @@ new class extends Component {
 
                             <th
                                 class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                Last Login</th>
+
+                            <th
+                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                 Actions</th>
                         </tr>
                     </thead>
@@ -312,6 +325,13 @@ new class extends Component {
                                             @endif
                                         </td>
                                     @endcan
+                                    <td class="whitespace-nowrap px-6 py-4 dark:text-gray-300">
+                                        @if ($user->last_logged_in)
+                                            {{ $user->last_logged_in->diffForHumans() }}
+                                        @else
+                                            Never logged in
+                                        @endif
+                                    </td>
                                     <td class="whitespace-nowrap px-6 py-4 space-x-2">
                                         @can('users.edit')
                                             <button wire:click="edit({{ $user->id }})"
@@ -345,8 +365,10 @@ new class extends Component {
                     @if ($isEditing)
                         <div class="flex justify-between p-4">
                             <h4>Edit this</h4>
-                            <livewire:widget.active-status-change :model="$user" :field="'is_active'"
-                                :wire:key="'status-' . ($user->id ?? uniqid())" />
+                            @can('users.disable-enable')
+                                <livewire:widget.active-status-change :model="$user" :field="'is_active'"
+                                    :wire:key="'status-' . ($user->id ?? uniqid())" />
+                            @endcan
                         </div>
                     @endif
                     <form wire:submit="save">

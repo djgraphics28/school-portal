@@ -38,6 +38,12 @@ new class extends Component {
 
         $this->enabled = true;
         flash()->success('2FA enabled successfully.');
+
+        activity('enable-2fa')
+            ->causedBy(Auth::user())
+            ->performedOn(Auth::user())
+            ->withProperties(['ip' => request()->ip()])
+            ->log('User enabled 2FA');
     }
 
     public function disable2FA()
@@ -49,6 +55,12 @@ new class extends Component {
 
         $this->enabled = false;
         flash()->success('2FA disabled successfully.');
+
+        activity('disable-2fa')
+            ->causedBy(Auth::user())
+            ->performedOn(Auth::user())
+            ->withProperties(['ip' => request()->ip()])
+            ->log('User disabled 2FA');
     }
 };
 ?>

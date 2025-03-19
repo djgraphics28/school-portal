@@ -49,6 +49,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
+        activity('user-login')
+            ->causedBy(Auth::user())
+            ->performedOn(Auth::user())
+            ->withProperties(['ip' => request()->ip()])
+            ->log('User logged in');
+
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
     /**
