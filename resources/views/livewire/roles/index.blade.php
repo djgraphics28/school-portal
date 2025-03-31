@@ -10,6 +10,7 @@ new class extends Component {
     use WithPagination;
 
     public $search = '';
+    public $searchPermissions = '';
     public $showModal = false;
     public $role;
     public $isEditing = false;
@@ -237,10 +238,16 @@ new class extends Component {
                                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-300">Give all
                                             permissions</span>
                                     </div>
+                                    <div class="mb-4">
+                                        <flux:input wire:model.live="searchPermissions" :label="__('Search Permissions')" type="search" placeholder="Search permissions..."
+                                            class="dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600" />
+                                    </div>
                                     <div
                                         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                                         @php
-                                            $groupedPermissions = $permissions->groupBy(function ($permission) {
+                                            $groupedPermissions = $permissions->filter(function($permission) {
+                                                return empty($this->searchPermissions) || str_contains(strtolower($permission->name), strtolower($this->searchPermissions));
+                                            })->groupBy(function ($permission) {
                                                 return explode('.', $permission->name)[0];
                                             });
                                         @endphp

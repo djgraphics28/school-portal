@@ -366,8 +366,11 @@ new class extends Component {
                         <div class="flex justify-between p-4">
                             <h4>Edit this</h4>
                             @can('users.disable-enable')
-                                <livewire:widget.active-status-change :model="$user" :field="'is_active'"
-                                    :wire:key="'status-' . ($user->id ?? uniqid())" />
+                                <div class="flex items-center gap-2">
+                                    <label for="">Disable/Enable User</label>
+                                    <livewire:widget.active-status-change :model="$user" :field="'is_active'"
+                                        :wire:key="'status-' . ($user->id ?? uniqid())" />
+                                </div>
                             @endcan
                         </div>
                     @endif

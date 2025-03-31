@@ -26,6 +26,18 @@ class RolePermissionSeeder extends Seeder
             'roles.create',
             'roles.edit',
             'roles.delete',
+
+            //Academic Management
+            'academic-management.view',
+
+            'sysem.view',
+            'sysem.create',
+            'sysem.edit',
+            'sysem.delete',
+            'sysem.add-new-school-year',
+            'sysem.edit-school-year',
+            'sysem.add-new-semester',
+            'sysem.edit-semester',
         ];
 
         foreach ($permissions as $permission) {
