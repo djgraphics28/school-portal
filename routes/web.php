@@ -24,6 +24,9 @@ Route::middleware(['auth','check.active','2fa'])->group(function () {
     Volt::route('users', 'users.index')->name('users');
     Volt::route('roles', 'roles.index')->name('roles');
     Volt::route('school-year-and-semester', 'schoolyearandsemester.index')->name('schoolyearandsemester');
+
+    Volt::route('departments', 'departments.index')->name('departments');
+
 });
 
 Route::group(['prefix' => 'student','middleware' => ['auth', 'check.active', 'verified','2fa']], function() {
@@ -35,3 +38,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/student.php';
+require __DIR__.'/faculty.php';
